@@ -1,0 +1,36 @@
+apply plugin: "org.hidetake.swagger.generator"
+
+dependencies {
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
+}
+
+swaggerSources {
+    visionAdapter {
+        inputFile = file("$project.projectDir/src/main/resources/swagger/vision-adapter.json")
+        code {
+            language = 'spring'
+            components = ["models"]
+            library = 'spring-cloud'
+            additionalProperties = [
+                    'dateLibrary'      : 'java8-localdatetime',
+                    'serializableModel': 'true',
+                    'encoding'         : 'UTF-8'
+            ]
+            outputDir = file("$project.buildDir/generated-sources/swagger/visionadapter")
+        }
+    }
+}
+
+
+sourceSets {
+    main.kotlin.srcDirs += "$project.buildDir/generated-sources/swagger/visionadapter/src/main/java"
+    main.java.srcDirs += "$project.buildDir/generated-sources/swagger/visionadapter/src/main/java"
+}
+
+compileJava {
+    dependsOn generateSwaggerCode
+}
+
+compileKotlin {
+    dependsOn generateSwaggerCode
+}

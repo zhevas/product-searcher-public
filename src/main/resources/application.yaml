@@ -1,0 +1,37 @@
+server:
+  error:
+    include-message: always
+  servlet:
+    context-path: /core
+
+application:
+  currencies:
+    - руб
+    - ₽
+    - р
+
+rest:
+  google-search:
+    key:
+    cx:
+    base-url: "https://www.googleapis.com/customsearch/v1"
+  renderer:
+    #base-url: "https://renderer-${spring.cloud.gcp.services-id}.a.run.app/api/render"
+    base-url: "http://localhost:9000/api/render"
+  storage:
+    base-url: "https://storage-${spring.cloud.gcp.services-id}.a.run.app/storage/api/v1"
+    resources:
+      image: "/search/{searchId}/image/{linkId}"
+      page: "/search/{searchId}/page/{linkId}"
+  vision-adapter:
+    base-url: "http://localhost:8082/vision-adapter/api/v1"
+    resources:
+      draw: "/draw"
+      prediction: "/prediction"
+      predictionGroup: "/predictionGroup"
+
+spring:
+  cloud:
+    gcp:
+      project-id:
+      services-id:
